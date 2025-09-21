@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+mlflow
+pandas
+scikit-learn
+tensorflow
+pyyaml
+boto3   # MinIO veya S3 için
+psycopg2-binary  # PostgreSQL için (opsiyonel)
+faker  # Sentetik veri için
+requests  # API çağrıları için
+numpy

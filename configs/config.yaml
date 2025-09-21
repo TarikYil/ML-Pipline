@@ -1,0 +1,90 @@
+# -----------------------------
+# VERİ KAYNAĞI SEÇİMİ
+# -----------------------------
+data_source:
+  type: "minio"   # minio, s3, api, db veya file
+
+# -----------------------------
+# API KAYNAĞI
+# -----------------------------
+api:
+  endpoint: "https://example.com/textdata"
+  api_key: "YOUR_API_KEY"
+
+# -----------------------------
+# DB KAYNAĞI
+# -----------------------------
+db:
+  type: "postgresql"
+  host: "localhost"
+  port: 5432
+  database: "textdb"
+  user: "admin"
+  password: "password"
+  query: "SELECT * FROM texts_table;"
+
+# -----------------------------
+# AWS S3 KAYNAĞI
+# -----------------------------
+s3:
+  endpoint_url: "https://s3.amazonaws.com"   # AWS için varsayılan endpoint
+  bucket_name: "text-bucket"
+  object_key: "input_texts.csv"
+  aws_access_key_id: "AWS_KEY"
+  aws_secret_access_key: "AWS_SECRET"
+
+# -----------------------------
+# MINIO KAYNAĞI
+# -----------------------------
+minio:
+  endpoint_url: "http://localhost:9000"      # MinIO adresi
+  bucket_name: "text-bucket"
+  object_key: "input_texts.csv"
+  access_key: "minioadmin"                   # MinIO kullanıcı adı
+  secret_key: "minioadmin"                   # MinIO şifresi
+
+# -----------------------------
+# YEREL DOSYA KAYNAĞI
+# -----------------------------
+file:
+  path: "data/test_data.xlsx"  # .csv veya .xlsx desteklenir
+
+# -----------------------------
+# SENTETİK VERİ ÜRETİMİ
+# -----------------------------
+synthetic:
+  faker_rows: 5000
+  gemini_prompt: "Generate 5000 rows of logistics shipment text data with realistic distributions."
+  anomaly_ratio: 0.03
+
+# -----------------------------
+# MODEL PARAMETRELERİ
+# type:
+#   - random_forest (tabular/regresyon)
+#   - linear_regression (basit regresyon)
+#   - lstm (tek değişkenli zaman serisi)
+# -----------------------------
+model:
+  type: "random_forest"   # random_forest, linear_regression veya lstm seçebilirsin
+  params:
+    # RandomForest için
+    n_estimators: 200
+    max_depth: 10
+
+    # LinearRegression için ek parametre yok
+
+    # LSTM için
+    window_size: 200
+    epochs: 5
+    batch_size: 32
+    learning_rate: 0.0001
+    forecast_steps: 5   # yeni: ileriye tahmin adım sayısı
+
+# -----------------------------
+# DEPLOY AYARLARI
+# -----------------------------
+deploy:
+  api_port: 8000         # FastAPI / Tahmin servisi portu
+  model_name: "Classic_Models_Model"   # MLflow Model Registry’deki model adı
+  model_stage: "Production"            # Staging veya Production
+  tracking_uri: "http://mlflow:5000"   # MLflow Tracking URI (docker-compose’daki servis)
